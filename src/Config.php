@@ -22,7 +22,7 @@ final class Config
     {
         $baseURL = config('mailzeet.devMode') === true
             ? config('mailzeet.devBaseUrl')
-            : 'https://api.mailzeet.com';
+            : 'https://api.mailzeet.com/v1';
 
         if (empty($baseURL)) {
             throw new InvalidPayloadException('MailZeet base URL is not set.');
