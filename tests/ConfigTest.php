@@ -55,7 +55,7 @@ class ConfigTest extends TestCase
     {
         config(['mailzeet.devMode' => false]);
 
-        $this->assertEquals('https://api.mailzeet.com', Config::getBaseUrl());
+        $this->assertEquals('https://api.mailzeet.com/v1', Config::getBaseUrl());
     }
 
     /**
