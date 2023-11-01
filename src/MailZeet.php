@@ -17,6 +17,15 @@ class MailZeet
 
     public static function sendNow(Mail $mailObject): object
     {
+        if (Config::getEnv() === 'test') {
+            info(
+                message: 'MailZeet: Email not sent because the environment is set to test. ' .
+                'To send emails, set the environment to live.',
+                context: $mailObject->toArray()
+            );
+            return new \stdClass();
+        }
+
         return self::getMailZeetClientInstance()->send(emailObject: $mailObject);
     }
 
