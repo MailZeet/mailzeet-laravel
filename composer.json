@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "illuminate/contracts": "^9.0 || ^10.0",
-        "axazara/php-cs": "^1.0",
+        "axazara/php-cs": "^0.1",
         "insolita/unused-scanner": "^2.4",
         "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^2.6",
