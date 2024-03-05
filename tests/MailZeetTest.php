@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Queue;
 use MailZeet\Laravel\Jobs\SendEmailJob;
 use MailZeet\Laravel\MailZeet;
 use MailZeet\Objects\Mail;
-use MailZeet\Objects\Recipient;
+use MailZeet\Objects\Address;
 
 class MailZeetTest extends TestCase
 {
@@ -56,7 +56,7 @@ class MailZeetTest extends TestCase
 
         $mail = Mail::make()
             ->setRecipients([
-                Recipient::make(
+                Address::make(
                     $this->faker->email(),
                     $this->faker->firstName(),
                 ),

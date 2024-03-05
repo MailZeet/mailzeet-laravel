@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "mailzeet/mailzeet-php": "^0.1.0"
+        "mailzeet/mailzeet-php": "^0.1.7"
     },
     "require-dev": {
         "illuminate/contracts": "^9.0 || ^10.0",
