@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 use MailZeet\Laravel\Jobs\SendEmailJob;
 use MailZeet\Laravel\MailZeet;
-use MailZeet\Objects\Mail;
 use MailZeet\Objects\Address;
+use MailZeet\Objects\Mail;
 
 class MailZeetTest extends TestCase
 {
