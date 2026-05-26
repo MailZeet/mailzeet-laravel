@@ -55,8 +55,8 @@ This command will:
 You will have to replace 'your-public-key' and 'your-secret-key' with your actual MailZeet public key and secret key respectively.
 
 ```env
-MONEROO_PUBLIC_KEY=your-public-key
-MONEROO_SECRET_KEY=your-secret-key
+MAILZEET_PUBLIC_KEY=your-public-key
+MAILZEET_SECRET_KEY=your-secret-key
 ```
 
 Please keep in mind that these are sensitive keys and should not be publicly exposed.
