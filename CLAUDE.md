@@ -2,6 +2,72 @@
 
 Guidance for Claude Code and other AI agents working in this repository.
 
+## Project overview
+
+This repo is the official Laravel SDK for the MailZeet email delivery API. It is a Composer package (`mailzeet/mailzeet-laravel`) that wraps the core `mailzeet/mailzeet-php` client and provides a Laravel service provider, Facade, queued job, and Artisan install command. Laravel applications require it via Composer to send transactional emails through the MailZeet API.
+
+## Tech stack
+
+- PHP ^8.1
+- Laravel 9 or 10 (tested via `orchestra/testbench ^7.29`)
+- `mailzeet/mailzeet-php ^0.1.7` — underlying HTTP client (Guzzle-based)
+- PHPUnit 9.6 — test framework
+- PHPStan (larastan) level 4 — static analysis
+- `axazara/php-cs` / php-cs-fixer — code style enforcement
+- `insolita/unused-scanner` — dependency audit
+
+## Getting started
+
+```bash
+composer install
+
+# To use the package in a host app:
+composer require mailzeet/mailzeet-laravel
+php artisan mailzeet:install
+```
+
+After install, set credentials in `.env`:
+
+```env
+MAILZEET_API_KEY=your-api-key
+MAILZEET_QUEUE=default
+MAILZEET_ENV=live          # live | test
+MAILZEET_DEV_MODE=false
+MAILZEET_DEV_BASE_URL=https://api.mailzeet.com
+```
+
+## Common commands
+
+| Task | Command |
+|---|---|
+| Test | `composer test` |
+| Lint (dry-run) | `composer sniff` |
+| Format | `composer format` |
+| Static analysis | `composer analyse` |
+| Unused dependency check | `composer unused` |
+
+## Architecture
+
+The package is intentionally small (KISS principle):
+
+- `src/MailZeet.php` — main entry point; exposes `send()` (queued), `sendNow()` (synchronous), and `sendAfterResponse()` methods.
+- `src/Config.php` — reads and validates all `config('mailzeet.*')` values; throws `InvalidPayloadException` on missing/invalid config.
+- `src/Jobs/SendEmailJob.php` — queued Laravel job that dispatches email via the PHP client; silently no-ops when `MAILZEET_ENV=test`.
+- `src/Facades/MailZeet.php` — `MailZeet` Facade registered as `mailzeet` binding.
+- `src/Providers/MailZeetServiceProvider.php` — registers the binding, publishes config, and registers the `mailzeet:install` Artisan command.
+- `src/Console/InstallCommand.php` — publishes `config/mailzeet.php` and appends env vars to `.env`.
+- `config/mailzeet-laravel.php` — published config template.
+- `tests/` — PHPUnit tests using Testbench; covers Config, MailZeet main class, and SendEmailJob.
+
+## Conventions
+
+- Code style is enforced by `php-cs-fixer` using the `axazara/php-cs` ruleset. Run `composer format` before every commit.
+- Static analysis runs at PHPStan level 4 with Larastan; run `composer analyse` before pushing.
+- Every change must include test coverage (`tests/` directory, PHPUnit with `--testdox`).
+- When `MAILZEET_ENV=test`, all send methods silently log rather than dispatch — use this in test suites to avoid real API calls.
+- Dev mode (`MAILZEET_DEV_MODE=true`) redirects API calls to `MAILZEET_DEV_BASE_URL` for local/staging API testing.
+- The changelog, README, and version number must be updated with every change.
+
 ## Git Conventions
 
 ### 1. Branch names
